@@ -289,7 +289,30 @@ public class viewAplikasi extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDeskripsiActionPerformed
 
     private void btn_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_searchActionPerformed
-
+        String keyword = txt_search.getText();
+    if (keyword.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Masukkan kata kunci pencarian!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+    } else {
+        ConnectionManager connectionManager = new ConnectionManager();
+        try (Connection conn = connectionManager.logOn()) {
+            String query = "SELECT kategori, tanggal, deskripsi, jumlah FROM catatan WHERE kategori LIKE ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) tabelCatatan.getModel();
+            model.setRowCount(0); // Bersihkan tabel sebelum memuat data baru
+            while (rs.next()) {
+                model.addRow(new Object[]{ 
+                    rs.getString("kategori"), 
+                    rs.getString("tanggal"), 
+                    rs.getString("deskripsi"), 
+                    rs.getString("jumlah") 
+                });
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Gagal mencari data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     }//GEN-LAST:event_btn_searchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
