@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public class ConnectionManager {
      private Connection con;
-    private String url = "jdbc:mysql://localhost:3306/percobaan_tubes";
+    private String url = "jdbc:mysql://localhost:3306/tubes";
     private String Driver = "com.mysql.cj.jdbc.Driver";
     private String Username = "root";
     private String Password = "basdat2024";
