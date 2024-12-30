@@ -5,6 +5,13 @@
 package view;
 
 import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.table.DefaultTableModel;
+import org.itenas.is.oop.projek.utils.ConnectionManager;
 
 /**
  *
@@ -12,10 +19,34 @@ import javax.swing.JOptionPane;
  */
 public class viewAplikasi extends javax.swing.JFrame {
 
-    public viewAplikasi() {
-        initComponents();
+    private void loadTableData() {
+        ConnectionManager connectionManager = new ConnectionManager();
+        try (Connection conn = connectionManager.logOn()) {
+            String query = "SELECT kategori, tanggal, deskripsi, jumlah FROM catatan";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            DefaultTableModel model = (DefaultTableModel) tabelCatatan.getModel();
+            model.setRowCount(0); // Bersihkan tabel sebelum memuat data baru
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                   
+                    rs.getString("kategori"),
+                    rs.getString("tanggal"),
+                    rs.getString("deskripsi"),
+                    rs.getString("jumlah")
+                });
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Gagal memuat data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
+    public viewAplikasi() {
+        initComponents();
+        loadTableData();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,7 +62,7 @@ public class viewAplikasi extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnKeluar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelCatatan = new javax.swing.JTable();
         btn_search = new javax.swing.JButton();
@@ -84,7 +115,12 @@ public class viewAplikasi extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setIcon(new javax.swing.ImageIcon("C:\\Users\\ASUS\\AppData\\Local\\Temp\\Rar$DRa0.508\\Images\\logout.png")); // NOI18N
+        btnKeluar.setIcon(new javax.swing.ImageIcon("C:\\Users\\ASUS\\AppData\\Local\\Temp\\Rar$DRa0.508\\Images\\logout.png")); // NOI18N
+        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKeluarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -97,7 +133,7 @@ public class viewAplikasi extends javax.swing.JFrame {
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
+                    .addComponent(btnKeluar))
                 .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
@@ -112,7 +148,7 @@ public class viewAplikasi extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(btnClear)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton6)
+                .addComponent(btnKeluar)
                 .addGap(44, 44, 44))
         );
 
@@ -253,22 +289,7 @@ public class viewAplikasi extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDeskripsiActionPerformed
 
     private void btn_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_searchActionPerformed
-        String searchQuery = txt_search.getText().toLowerCase();
-        boolean found = false;
 
-        for (int i = 0; i < tabelCatatan.getRowCount(); i++) {
-            for (int j = 0; j < tabelCatatan.getColumnCount(); j++) {
-                if (tabelCatatan.getValueAt(i, j).toString().toLowerCase().contains(searchQuery)) {
-                    found = true;
-                    JOptionPane.showMessageDialog(this, "Data ditemukan di baris ke-" + (i + 1), "Info", JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-            }
-        }
-
-        if (!found) {
-            JOptionPane.showMessageDialog(this, "Data tidak ditemukan!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-        }
     }//GEN-LAST:event_btn_searchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -322,6 +343,17 @@ public class viewAplikasi extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
+    private void btnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKeluarActionPerformed
+        int konfirmasi = JOptionPane.showConfirmDialog(this, 
+            "Apakah Anda yakin ingin keluar dari aplikasi?",
+            "Konfirmasi Keluar", 
+            JOptionPane.YES_NO_OPTION);
+
+        if (konfirmasi == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_btnKeluarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -369,10 +401,10 @@ public class viewAplikasi extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnKeluar;
     private javax.swing.JButton btnSubmit;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btn_search;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

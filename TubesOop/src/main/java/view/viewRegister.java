@@ -19,7 +19,7 @@ public class viewRegister extends javax.swing.JFrame {
     public viewRegister() {
         initComponents();
         setLocationRelativeTo(null);
-        viewRegister = new viewRegister();
+        
     }
 
     public void showPassword() {
@@ -70,8 +70,6 @@ public class viewRegister extends javax.swing.JFrame {
                 btnDaftarActionPerformed(evt);
             }
         });
-
-        txtUsername.setText("Username");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
@@ -150,8 +148,6 @@ public class viewRegister extends javax.swing.JFrame {
             }
         });
 
-        txtPassword.setText("jPasswordField1");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -226,7 +222,7 @@ public class viewRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDaftarMouseClicked
 
     private void cbShowPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbShowPassActionPerformed
-        // TODO add your handling code here:
+        showPassword();
     }//GEN-LAST:event_cbShowPassActionPerformed
 
     private void btnMasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMasukMouseClicked
