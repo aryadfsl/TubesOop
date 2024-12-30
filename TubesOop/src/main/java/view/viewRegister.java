@@ -13,13 +13,23 @@ import org.itenas.is.oop.projek.repository.ControllerLogin;
  */
 public class viewRegister extends javax.swing.JFrame {
 
-    Boolean hasil;
     ControllerLogin conLog = new ControllerLogin();
-    /**
-     * Creates new form viewRegister
-     */
+    viewRegister viewRegister;
+
     public viewRegister() {
         initComponents();
+        setLocationRelativeTo(null);
+        viewRegister = new viewRegister();
+    }
+
+    public void showPassword() {
+        if (cbShowPass.isSelected()) {
+            txtPassword.setEchoChar((char) 0);
+            cbShowPass.setText("Hide Password");
+        } else {
+            txtPassword.setEchoChar('*');
+            cbShowPass.setText("Show Password");
+        }
     }
     
 
@@ -42,8 +52,8 @@ public class viewRegister extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
         cbShowPass = new javax.swing.JCheckBox();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -132,8 +142,6 @@ public class viewRegister extends javax.swing.JFrame {
                 .addGap(81, 81, 81))
         );
 
-        txtPassword.setText("Password");
-
         cbShowPass.setForeground(new java.awt.Color(0, 0, 0));
         cbShowPass.setText("Lihat kata sandi");
         cbShowPass.addActionListener(new java.awt.event.ActionListener() {
@@ -141,6 +149,8 @@ public class viewRegister extends javax.swing.JFrame {
                 cbShowPassActionPerformed(evt);
             }
         });
+
+        txtPassword.setText("jPasswordField1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -157,12 +167,11 @@ public class viewRegister extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(75, 75, 75)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
                                         .addComponent(cbShowPass))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(55, 59, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -270,7 +279,7 @@ public class viewRegister extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

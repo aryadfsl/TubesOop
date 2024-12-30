@@ -15,20 +15,20 @@ public class viewLogin extends javax.swing.JFrame {
 
     ControllerLogin conLog = new ControllerLogin();
     viewRegister viewRegister;
-    
+
     public viewLogin() {
         initComponents();
         setLocationRelativeTo(null);
         viewRegister = new viewRegister();
     }
 
-    public void showPassword(){
-        if (cbShowPass.isSelected()){
-            txtPassword.setEchoChar((char)0);
+    public void showPassword() {
+        if (cbShowPass.isSelected()) {
+            txtPassword.setEchoChar((char) 0);
             cbShowPass.setText("Hide Password");
-        }else{
+        } else {
             txtPassword.setEchoChar('*');
-            cbShowPass.setText("Show Pasword");
+            cbShowPass.setText("Show Password");
         }
     }
 
@@ -44,7 +44,6 @@ public class viewLogin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnMasuk = new javax.swing.JButton();
         cbShowPass = new javax.swing.JCheckBox();
-        txtPassword = new javax.swing.JTextField();
         txtUsername = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -52,6 +51,7 @@ public class viewLogin extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btnDaftar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 241, 219));
@@ -72,8 +72,6 @@ public class viewLogin extends javax.swing.JFrame {
                 cbShowPassActionPerformed(evt);
             }
         });
-
-        txtPassword.setText("Password");
 
         txtUsername.setText("Username");
 
@@ -139,6 +137,8 @@ public class viewLogin extends javax.swing.JFrame {
                 .addGap(81, 81, 81))
         );
 
+        txtPassword.setText("jPasswordField1");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -156,17 +156,14 @@ public class viewLogin extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(cbShowPass)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(55, 55, 55))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(130, 130, 130))))))))
+                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,7 +174,7 @@ public class viewLogin extends javax.swing.JFrame {
                 .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbShowPass)
                 .addGap(40, 40, 40)
                 .addComponent(btnMasuk)
@@ -270,7 +267,7 @@ public class viewLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
