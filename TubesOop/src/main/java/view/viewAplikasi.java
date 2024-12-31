@@ -62,7 +62,7 @@ public class viewAplikasi extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
-        btnKeluar = new javax.swing.JButton();
+        btnKembali = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelCatatan = new javax.swing.JTable();
         btn_search = new javax.swing.JButton();
@@ -115,10 +115,10 @@ public class viewAplikasi extends javax.swing.JFrame {
             }
         });
 
-        btnKeluar.setIcon(new javax.swing.ImageIcon("C:\\Users\\ASUS\\AppData\\Local\\Temp\\Rar$DRa0.508\\Images\\logout.png")); // NOI18N
-        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
+        btnKembali.setIcon(new javax.swing.ImageIcon("C:\\Users\\ASUS\\AppData\\Local\\Temp\\Rar$DRa0.508\\Images\\logout.png")); // NOI18N
+        btnKembali.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKeluarActionPerformed(evt);
+                btnKembaliActionPerformed(evt);
             }
         });
 
@@ -133,7 +133,7 @@ public class viewAplikasi extends javax.swing.JFrame {
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnKeluar))
+                    .addComponent(btnKembali))
                 .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
@@ -148,7 +148,7 @@ public class viewAplikasi extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(btnClear)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnKeluar)
+                .addComponent(btnKembali)
                 .addGap(44, 44, 44))
         );
 
@@ -302,7 +302,7 @@ public class viewAplikasi extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tabelCatatan.getModel();
             model.setRowCount(0); // Bersihkan tabel sebelum memuat data baru
             while (rs.next()) {
-                model.addRow(new Object[]{ 
+                model.addRow(new Object[]{
                     rs.getString("kategori"), 
                     rs.getString("tanggal"), 
                     rs.getString("deskripsi"), 
@@ -320,10 +320,27 @@ public class viewAplikasi extends javax.swing.JFrame {
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Pilih data yang ingin dihapus!", "Peringatan", JOptionPane.WARNING_MESSAGE);
         } else {
-            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tabelCatatan.getModel();
-            model.removeRow(selectedRow);
-            JOptionPane.showMessageDialog(this, "Data berhasil dihapus!", "Info", JOptionPane.INFORMATION_MESSAGE);
-            clearInputFields();
+            // Ambil kategori dan nilai lain yang bisa digunakan sebagai kunci tambahan, misalnya tanggal atau deskripsi
+            String kategori = (String) tabelCatatan.getValueAt(selectedRow, 0); // Misalnya kategori di kolom 0
+            String deskripsi = (String) tabelCatatan.getValueAt(selectedRow, 2); // Misalnya deskripsi di kolom 2, sesuaikan jika perlu
+
+            // Konfirmasi penghapusan hanya pada data yang dipilih
+            int confirmation = JOptionPane.showConfirmDialog(this, "Anda yakin ingin menghapus data dengan kategori '" + kategori + "' dan deskripsi '" + deskripsi + "'?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
+            if (confirmation == JOptionPane.YES_OPTION) {
+                ConnectionManager connectionManager = new ConnectionManager();
+                try (Connection conn = connectionManager.logOn()) {
+                    // Query dengan tambahan deskripsi atau kriteria lain untuk memastikan hanya satu baris yang terhapus
+                    String query = "DELETE FROM catatan WHERE kategori = ? AND deskripsi = ? LIMIT 1";  // Gunakan deskripsi untuk memastikan hanya satu data yang dihapus
+                    PreparedStatement ps = conn.prepareStatement(query);
+                    ps.setString(1, kategori);
+                    ps.setString(2, deskripsi);  // Pastikan deskripsi cocok dengan yang dipilih
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(this, "Data berhasil dihapus!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    loadTableData(); // Refresh table
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Gagal menghapus data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -337,19 +354,29 @@ public class viewAplikasi extends javax.swing.JFrame {
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         String kategori = txtKategori.getText();
-        String tanggal = txtTanggal.getText();
-        String deskripsi = txtDeskripsi.getText();
-        String jumlah = txtJumlah.getText();
+    String tanggal = txtTanggal.getText();
+    String deskripsi = txtDeskripsi.getText();
+    String jumlah = txtJumlah.getText();
 
-        if (kategori.isEmpty() || tanggal.isEmpty() || deskripsi.isEmpty() || jumlah.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Harap isi semua field!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-        } else {
-            // Tambahkan data ke tabel
-            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tabelCatatan.getModel();
-            model.addRow(new Object[]{kategori, tanggal, deskripsi, jumlah});
+    if (kategori.isEmpty() || tanggal.isEmpty() || deskripsi.isEmpty() || jumlah.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Harap isi semua field!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+    } else {
+        ConnectionManager connectionManager = new ConnectionManager();
+        try (Connection conn = connectionManager.logOn()) {
+            String query = "INSERT INTO catatan (kategori, tanggal, deskripsi, jumlah) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, kategori);
+            ps.setString(2, tanggal);
+            ps.setString(3, deskripsi);
+            ps.setString(4, jumlah);
+            ps.executeUpdate();
             JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            loadTableData(); // Refresh table
             clearInputFields();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Gagal menambahkan data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -366,16 +393,10 @@ public class viewAplikasi extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKeluarActionPerformed
-        int konfirmasi = JOptionPane.showConfirmDialog(this, 
-            "Apakah Anda yakin ingin keluar dari aplikasi?",
-            "Konfirmasi Keluar", 
-            JOptionPane.YES_NO_OPTION);
-
-        if (konfirmasi == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        }
-    }//GEN-LAST:event_btnKeluarActionPerformed
+    private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
+        new FinanceTracker().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnKembaliActionPerformed
 
     /**
      * @param args the command line arguments
@@ -424,7 +445,7 @@ public class viewAplikasi extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnKeluar;
+    private javax.swing.JButton btnKembali;
     private javax.swing.JButton btnSubmit;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btn_search;

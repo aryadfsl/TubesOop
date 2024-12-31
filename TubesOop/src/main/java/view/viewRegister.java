@@ -86,6 +86,11 @@ public class viewRegister extends javax.swing.JFrame {
                 btnMasukMouseClicked(evt);
             }
         });
+        btnMasuk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMasukActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -228,6 +233,10 @@ public class viewRegister extends javax.swing.JFrame {
     private void btnMasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMasukMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMasukMouseClicked
+
+    private void btnMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasukActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMasukActionPerformed
 
     /**
      * @param args the command line arguments
