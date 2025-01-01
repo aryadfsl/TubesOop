@@ -199,6 +199,16 @@ public class viewAplikasi extends javax.swing.JFrame {
         jLabel4.setText("Jumlah");
 
         txt_search.setText("Cari");
+        txt_search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_searchMouseClicked(evt);
+            }
+        });
+        txt_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_searchActionPerformed(evt);
+            }
+        });
 
         txtKategori.setBackground(new java.awt.Color(204, 204, 204));
         txtKategori.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
@@ -397,6 +407,14 @@ public class viewAplikasi extends javax.swing.JFrame {
         new FinanceTracker().setVisible(true);
         dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
+
+    private void txt_searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_searchMouseClicked
+        txt_search.setText("");
+    }//GEN-LAST:event_txt_searchMouseClicked
+
+    private void txt_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_searchActionPerformed
 
     /**
      * @param args the command line arguments
