@@ -64,7 +64,7 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace min="55" max="32767" attributes="0"/>
+                          <EmptySpace min="55" pref="58" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
