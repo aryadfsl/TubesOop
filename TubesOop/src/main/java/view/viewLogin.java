@@ -65,6 +65,11 @@ public class viewLogin extends javax.swing.JFrame {
                 btnMasukActionPerformed(evt);
             }
         });
+        btnMasuk.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnMasukKeyPressed(evt);
+            }
+        });
 
         cbShowPass.setForeground(new java.awt.Color(0, 0, 0));
         cbShowPass.setText("Tampilkan kata sandi");
@@ -255,6 +260,10 @@ public class viewLogin extends javax.swing.JFrame {
     private void txtPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordMouseClicked
         txtPassword.setText("");
     }//GEN-LAST:event_txtPasswordMouseClicked
+
+    private void btnMasukKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnMasukKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMasukKeyPressed
 
     /**
      * @param args the command line arguments

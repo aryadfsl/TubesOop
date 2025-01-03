@@ -56,6 +56,18 @@ public class ControllerTransaction {
         return transactions;
     }
 
+    public BaseTransaction getTransactionById(int id) throws SQLException {
+        String sql = "SELECT * FROM base_transaction WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return createTransactionFromResultSet(rs);
+                }
+            }
+        }
+        return null;
+    }
 
     public void updateTransaction(BaseTransaction transaction, int id) throws SQLException {
         String sql = "UPDATE base_transaction SET date = ?, category = ?, description = ?, amount = ?, type = ? WHERE id = ?";
